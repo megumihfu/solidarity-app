@@ -1,3 +1,4 @@
 back/target/
+back/.idea/ 
 .env 
 .DS_Store
