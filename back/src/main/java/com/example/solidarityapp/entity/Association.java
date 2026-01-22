@@ -27,7 +27,7 @@ public class Association {
     private String link;
 
     @Enumerated(EnumType.STRING)
-    private List<Tag> tags;
+    private Tag tag;
 
     @Column(nullable = false)
     @NotNull
