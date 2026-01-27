@@ -19,6 +19,6 @@ public interface AssociationRepository extends JpaRepository<Association, Long> 
 
     List<Association> searchAssociations(@Param("city") String city,
                                          @Param("name") String name,
-                                         @Param("tas") Tag tag);
+                                         @Param("tag") Tag tag);
 
 }
