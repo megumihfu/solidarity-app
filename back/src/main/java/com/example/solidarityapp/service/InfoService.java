@@ -1,5 +1,8 @@
 package com.example.solidarityapp.service;
 
+import com.example.solidarityapp.dto.info.CreateInfoRequestDTO;
+import com.example.solidarityapp.dto.info.InfoResponseDTO;
+import com.example.solidarityapp.dto.info.UpdateInfoRequestDTO;
 import com.example.solidarityapp.entity.Info;
 import com.example.solidarityapp.repository.InfoRepository;
 import jakarta.transaction.Transactional;
@@ -16,28 +19,37 @@ public class InfoService {
         this.repository = repository;
     }
 
-    public List<Info> getAllInfos() {
-        return repository.findAll();
+    public List<InfoResponseDTO> getAllInfos() {
+        return repository.findAll()
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
-    public Info getInfoById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Information not found"));
+    public InfoResponseDTO getInfoById(Long id) {
+        Info info = repository.findById(id).orElseThrow(() -> new RuntimeException("Information not found"));
+
+        return toResponseDTO(info);
     }
 
     @Transactional
-    public Info createInfo(Info info) {
-        return repository.save(info);
+    public InfoResponseDTO createInfo(CreateInfoRequestDTO request) {
+        Info entity = toEntity(request);
+        Info newInfo = repository.save(entity);
+        return toResponseDTO(newInfo);
     }
 
     @Transactional
-    public Info updateInfo(Long id, Info updatedInfo) {
-        Info currentInfo = getInfoById(id);
+    public InfoResponseDTO updateInfo(Long id, UpdateInfoRequestDTO request) {
+        Info currentInfo = repository.findById(id).orElseThrow(() -> new RuntimeException("Info not found"));
 
-        currentInfo.setTitle(updatedInfo.getTitle());
-        currentInfo.setContent(updatedInfo.getContent());
-        currentInfo.setLink(updatedInfo.getLink());
+        if (request.title() != null) currentInfo.setTitle(request.title());
+        if (request.content() != null) currentInfo.setContent(request.content());
+        if (request.link() != null) currentInfo.setLink(request.link());
 
-        return repository.save(currentInfo);
+        Info saved = repository.save(currentInfo);
+
+        return toResponseDTO(saved);
     }
 
     @Transactional
@@ -48,4 +60,23 @@ public class InfoService {
 
         repository.deleteById(id);
     }
+
+    //region mapper
+    private InfoResponseDTO toResponseDTO(Info entity) {
+        return new InfoResponseDTO(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getContent(),
+                entity.getLink()
+        );
+    }
+
+    private Info toEntity(CreateInfoRequestDTO dto) {
+        Info info = new Info();
+        info.setTitle(dto.title());
+        info.setContent(dto.content());
+        info.setLink(dto.link());
+        return info;
+    }
+    //endregion
 }
