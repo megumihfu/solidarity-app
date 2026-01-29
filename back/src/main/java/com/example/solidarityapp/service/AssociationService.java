@@ -33,7 +33,7 @@ public class AssociationService {
                 .toList();
     }
 
-    public List<AssociationResponseDTO> search(String city, String name, Tag tag) {
+    public List<AssociationResponseDTO> search(String city, String name, String tag) {
         return repository.searchAssociations(city, name, tag)
                 .stream()
                 .map(this::toResponseDTO)

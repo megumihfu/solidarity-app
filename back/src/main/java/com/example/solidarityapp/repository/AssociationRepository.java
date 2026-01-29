@@ -12,13 +12,14 @@ import java.util.List;
 @Repository
 public interface AssociationRepository extends JpaRepository<Association, Long> {
 
-    @Query("SELECT asso FROM Association asso " +
-            "WHERE (:city IS NULL OR LOWER(asso.city) LIKE LOWER(CONCAT('%', :city, '%'))) " +
-            "AND (:name IS NULL OR LOWER(asso.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
-            "AND (:tag IS NULL OR asso.tag = :tag)")
+    @Query(value = "SELECT * FROM associations " +
+            "WHERE (:city IS NULL OR LOWER(city) LIKE LOWER(CONCAT('%', :city, '%'))) " +
+            "AND (:name IS NULL OR LOWER(name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+            "AND (:tag IS NULL OR tag = CAST(:tag AS VARCHAR))",
+            nativeQuery = true)
 
     List<Association> searchAssociations(@Param("city") String city,
                                          @Param("name") String name,
-                                         @Param("tag") Tag tag);
+                                         @Param("tag") String tag);
 
 }
