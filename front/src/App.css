@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+#root {
+  @apply max-w-[1280px] mx-auto p-8 text-center;
+}
+
+.logo {
+  @apply h-24 p-6 will-change-transform transition-[filter] duration-300;
+}
+.logo:hover {
+  @apply drop-shadow-[0_0_2em_cyan-500/70];
+}
+.logo.react:hover {
+  @apply drop-shadow-[0_0_2em_cyan-300/70];
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  @apply p-8;
+}
+
+.read-the-docs {
+  @apply text-slate-400;
+}
