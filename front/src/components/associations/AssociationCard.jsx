@@ -101,16 +101,14 @@ const AssociationCard = ({ association }) => {
 
             {/* link */}
             {association.link && (
-              <p className="text-sm">
-                <a
-                  href={association.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: 'var(--accent-primary)' }}
-                >
-                  Visit website
-                </a>
-              </p>
+              <a
+                href={association.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--accent-primary)' }}
+              >
+                Visit website
+              </a>
             )}
           </div>
         </div>
