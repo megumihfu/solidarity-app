@@ -1,71 +1,104 @@
 @import "tailwindcss";
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@layer base {
+  :root {
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-a {
-  @apply 
-    font-medium 
-    text-cyan-500 
-    no-underline;
-}
-a:hover {
-  @apply text-cyan-400;
-}
+    --bg-primary: theme(colors.white);
+    --bg-secondary: theme(colors.slate.50);
 
-body {
-  @apply 
-    m-0 
-    flex 
-    items-center 
-    justify-center 
-    min-w-[320px] 
-    min-h-screen;
-  background-color: theme('colors.slate.50');
-  color: theme('colors.slate.900');
-}
+    --text-primary: theme(colors.slate.900);
+    --text-secondary: theme(colors.slate.600);
 
-h1 {
-  @apply text-6xl leading-tight; 
-}
+    --accent-primary: theme(colors.cyan.500);
+    --accent-primary-hover: theme(colors.cyan.600);
+    --accent-muted: theme(colors.cyan.500 / 0.12);
 
-button {
-  @apply 
-    rounded-lg 
-    border 
-    border-transparent 
-    px-5 
-    py-2.5 
-    text-base 
-    font-medium 
-    bg-slate-800 
-    cursor-pointer 
-    transition-colors;
-}
-button:hover {
-  @apply border-cyan-500;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+    --border-subtle: theme(colors.slate.200);
 
-@media (prefers-color-scheme: light) {
-  body {
-    @apply bg-white text-slate-900;
+    --btn-primary-bg: var(--accent-primary);
+    --btn-primary-bg-hover: var(--accent-primary-hover);
+    --btn-primary-text: white;
+
+    --btn-secondary-bg: theme(colors.slate.200);
+    --btn-secondary-bg-hover: theme(colors.slate.300);
+    --btn-secondary-text: theme(colors.slate.900);
+
+    --card-bg: var(--bg-primary);
+    --card-border: var(--border-subtle);
+    --card-shadow: theme(colors.slate.900 / 0.05);
+
+    --tag-bg: var(--accent-muted);
+    --tag-text: var(--accent-primary);
+
+    --icon-bg: theme(colors.slate.100);
+    --icon-bg-active: var(--accent-primary);
+    --icon-text: theme(colors.slate.400);
+    --icon-text-active: white;
+
+    --text-heading: var(--text-primary);
+    --text-muted: var(--text-secondary);
+  }
+
+
+  a {
+    color: var(--accent-primary);
+    font-weight: 500;
+    text-decoration: none;
   }
   a:hover {
-    @apply text-cyan-400;
+    color: var(--accent-primary-hover);
   }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  h1 {
+    @apply text-6xl leading-tight; 
+  }
+
   button {
-    @apply bg-slate-100;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid transparent;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
   }
+
+  button:active {
+    transform: scale(0.97);
+  }
+
+  .button-primary {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+  }
+  
+  .button-primary:hover {
+    background: var(--btn-primary-bg-hover);
+  }
+  
+  .button-secondary {
+    background: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+  }
+  
+  .button-secondary:hover {
+    background: var(--btn-secondary-bg-hover);
+  }
+
 }
