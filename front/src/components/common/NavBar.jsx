@@ -1,4 +1,5 @@
 import Button from './Button';
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -11,17 +12,23 @@ const NavBar = () => {
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center">
         <div className="flex items-center">
-          <span
-            className="text-xl font-black tracking-tight"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Solidarity
-            <span style={{ color: 'var(--accent-primary)' }}>App</span>
-          </span>
+          <Link to="/">
+            <span
+              className="text-xl font-black tracking-tight cursor-pointer"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              Solidarity
+              <span style={{ color: 'var(--accent-primary)' }}>App</span>
+            </span>
+          </Link>
         </div>
         <div className="flex items-center gap-3">
-          <Button isPrimary={false}>Login</Button>
-          <Button isPrimary={true}>Register</Button>
+          <Link to="/login">
+            <Button isPrimary={false}>Login</Button>
+          </Link>
+          <Link to="/register">
+            <Button isPrimary={true}>Register</Button>
+          </Link>
         </div>
       </div>
     </nav>

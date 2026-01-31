@@ -17,8 +17,8 @@
     --text-primary: theme(colors.slate.900);
     --text-secondary: theme(colors.slate.600);
 
-    --accent-primary: theme(colors.cyan.500);
-    --accent-primary-hover: theme(colors.cyan.600);
+    --accent-primary: theme(colors.cyan.700);
+    --accent-primary-hover: theme(colors.cyan.800);
     --accent-muted: theme(colors.cyan.500 / 0.12);
 
     --border-subtle: theme(colors.slate.200);
@@ -55,6 +55,7 @@
   }
   a:hover {
     color: var(--accent-primary-hover);
+    text-decoration: underline;
   }
 
   body {
