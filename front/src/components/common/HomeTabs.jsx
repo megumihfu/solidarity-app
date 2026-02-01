@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import SearchBar from "../associations/SearchBar";
 import AssociationList from "../associations/AssociationList";
 import InfoCard from "../infos/InfoCard";
+import { searchAssociations } from "../../services/associationService";
 
 const HomeTabs = () => {
   const [selectedTab, setSelectedTab] = useState("home");
   const [searchParams, setSearchParams] = useState({ name: "", tag: "", city: "" });
+  const [associations, setAssociations] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async () => {
+    setLoading(true);
+    const data = await searchAssociations(searchParams);
+    setAssociations(data);
+    setLoading(false);
+  };
 
   const infos = [
     { id: 1, title: "How to register", content: "You can register as a volunteer or an association.", link: "https://somelink.fr" },
@@ -25,32 +35,40 @@ const HomeTabs = () => {
           Search for social aid in France.
         </p>
       </header>
-      
+
       {/* tabs */}
       <div className="flex space-x-8 mb-6 border-b border-slate-200">
         {["home", "infos"].map((tab) => {
-            const isSelected = selectedTab === tab;
-            return (
+          const isSelected = selectedTab === tab;
+          return (
             <div
-                key={tab}
-                onClick={() => setSelectedTab(tab)}
-                className={`cursor-pointer pb-2 font-semibold transition-colors ${
+              key={tab}
+              onClick={() => setSelectedTab(tab)}
+              className={`cursor-pointer pb-2 font-semibold transition-colors ${
                 isSelected
                     ? 'text-[var(--accent-primary)] border-b-2 border-[var(--accent-primary)]'
                     : 'text-[var(--text-secondary)] border-b-2 border-transparent hover:text-[var(--accent-primary)]'
                 }`}
             >
-                {tab === "home" ? "Home" : "Infos"}
+              {tab === "home" ? "Home" : "Infos"}
             </div>
-            );
+          );
         })}
       </div>
 
       {selectedTab === "home" && (
         <div className="space-y-6">
-            <SearchBar searchParams={searchParams} setSearchParams={setSearchParams} />
-            <AssociationList searchParams={searchParams} />
-      </div>
+          <SearchBar
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+            onSearch={handleSearch}
+          />
+          {loading ? (
+            <p style={{ color: 'var(--text-secondary)' }}>Loading...</p>
+          ) : (
+            <AssociationList associations={associations} />
+          )}
+        </div>
       )}
 
       {selectedTab === "infos" && (
