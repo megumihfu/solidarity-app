@@ -34,3 +34,14 @@ export const register = (data) => authRequest('register', data, 'Registration fa
 export const isAuthenticated = () => {
   return localStorage.getItem('isAuthenticated') === 'true';
 };
+
+export const getUser = () => ({
+  email: localStorage.getItem('userEmail'),
+  userName: localStorage.getItem('userName'),
+});
+
+export const logout = () => {
+  localStorage.removeItem('isAuthenticated');
+  localStorage.removeItem('userEmail');
+  localStorage.removeItem('userName');
+};

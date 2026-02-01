@@ -1,7 +1,18 @@
 import Button from './Button';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { isAuthenticated, getUser, logout } from "../../services/authService";
+import { FiLogOut } from "react-icons/fi";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const auth = isAuthenticated();
+  const user = auth ? getUser() : null;
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <nav
       className="sticky top-0 z-50 border-b"
@@ -23,12 +34,33 @@ const NavBar = () => {
           </Link>
         </div>
         <div className="flex items-center gap-3">
-          <Link to="/login">
-            <Button isPrimary={false}>Login</Button>
-          </Link>
-          <Link to="/register">
-            <Button isPrimary={true}>Register</Button>
-          </Link>
+          {auth ? (
+            <>
+              <span
+                className="text-base font-bold tracking-wide"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                Welcome,&nbsp;
+                <span style={{ color: 'var(--accent-primary)' }}>
+                  {user?.userName || user?.email} 
+                </span>
+                 &nbsp;!
+              </span>
+
+              <Button isPrimary={true} onClick={handleLogout}>
+                <FiLogOut />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">
+                <Button isPrimary={false}>Login</Button>
+              </Link>
+              <Link to="/register">
+                <Button isPrimary={true}>Register</Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

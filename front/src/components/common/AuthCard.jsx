@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Button from "./Button";
 
-const AuthCard = ({ title, subtitle, submitLabel, onSubmit , error}) => {
-  const [form, setForm] = useState({ email: "", password: "" });
+const AuthCard = ({ title, subtitle, submitLabel, onSubmit , error, showUsername = false}) => {
+  const [form, setForm] = useState({ userName: "", email: "", password: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,18 +50,20 @@ const AuthCard = ({ title, subtitle, submitLabel, onSubmit , error}) => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="userName"
-          required
-          placeholder="Username"
-          onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg border outline-none transition"
-          style={{
-            background: 'var(--bg-primary)',
-            borderColor: 'var(--border-subtle)',
-          }}
-        />
+        {showUsername && (
+          <input
+            type="text"
+            name="userName"
+            required
+            placeholder="Username"
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-lg border outline-none transition"
+            style={{
+              background: 'var(--bg-primary)',
+              borderColor: 'var(--border-subtle)',
+            }}
+          /> 
+        )}
 
         <input
           type="email"

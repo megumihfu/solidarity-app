@@ -44,6 +44,7 @@ const RegisterPage = () => {
           submitLabel="Register"
           onSubmit={handleRegister}
           error={error}
+          showUsername={true}
         />
       </main>
     </div>
