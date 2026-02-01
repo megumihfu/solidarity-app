@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "../associations/SearchBar";
 import AssociationList from "../associations/AssociationList";
 import InfoCard from "../infos/InfoCard";
-import { searchAssociations } from "../../services/associationService";
+import { searchAssociations, getAllAssociations } from "../../services/associationService";
 
 const HomeTabs = () => {
   const [selectedTab, setSelectedTab] = useState("home");
   const [searchParams, setSearchParams] = useState({ name: "", tag: "", city: "" });
   const [associations, setAssociations] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchAssociations = async () => {
+      setLoading(true);
+      const data = await getAllAssociations();
+      setAssociations(data);
+      setLoading(false);
+    };
+
+    fetchAssociations();
+  }, []);
 
   const handleSearch = async () => {
     setLoading(true);
