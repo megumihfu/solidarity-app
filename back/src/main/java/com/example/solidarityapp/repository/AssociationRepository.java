@@ -13,9 +13,9 @@ import java.util.List;
 public interface AssociationRepository extends JpaRepository<Association, Long> {
 
     @Query(value = "SELECT * FROM associations " +
-            "WHERE (:city IS NULL OR LOWER(city) LIKE LOWER(CONCAT('%', :city, '%'))) " +
-            "AND (:name IS NULL OR LOWER(name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
-            "AND (:tag IS NULL OR tag = CAST(:tag AS VARCHAR))",
+            "WHERE (:name IS NULL OR :name = '' OR LOWER(name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+            "AND (:city IS NULL OR :city = '' OR LOWER(city) LIKE LOWER(CONCAT('%', :city, '%'))) " +
+            "AND (:tag IS NULL OR :tag = '' OR tag = :tag)",
             nativeQuery = true)
 
     List<Association> searchAssociations(@Param("city") String city,
