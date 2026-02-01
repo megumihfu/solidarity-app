@@ -1,10 +1,27 @@
+import { useState } from "react";
 import NavBar from "../components/common/NavBar";
 import AuthCard from "../components/common/AuthCard";
+import { useNavigate } from "react-router-dom";
+import { login, register } from "../services/authService"; 
 
 const LoginPage = () => {
-  const handleLogin = (form) => {
-    console.log("LOGIN", form);
-    // @todo auth login
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+
+  const handleLogin = async (form, emailError) => {
+    if (emailError) {
+      setError(emailError);
+      return;
+    }
+
+    setError(null);
+    try {
+      await login(form);
+      navigate("/"); 
+    } catch (err) {
+      console.error("Login failed", err);
+      setError("Invalid email or password");
+    }
   };
 
   return (
@@ -20,6 +37,7 @@ const LoginPage = () => {
           subtitle="Login to continue"
           submitLabel="Login"
           onSubmit={handleLogin}
+          error={error}
         />
       </main>
     </div>

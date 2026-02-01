@@ -16,6 +16,7 @@
 
     --text-primary: theme(colors.slate.900);
     --text-secondary: theme(colors.slate.600);
+    --text-error: theme(colors.rose.600);
 
     --accent-primary: theme(colors.cyan.700);
     --accent-primary-hover: theme(colors.cyan.800);

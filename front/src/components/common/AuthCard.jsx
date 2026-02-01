@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 
-const AuthCard = ({ title, subtitle, submitLabel, onSubmit }) => {
+const AuthCard = ({ title, subtitle, submitLabel, onSubmit , error}) => {
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -11,7 +11,17 @@ const AuthCard = ({ title, subtitle, submitLabel, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(form);
+
+    if (!form.email.includes("@") || !form.email.split("@")[1]?.includes(".")) {
+      if (typeof onSubmit === "function") {
+        onSubmit(null, "Please enter a valid email address");
+      }
+      return;
+    }
+  
+    if (typeof onSubmit === "function") { //ok
+      onSubmit(form);
+    }
   };
 
   return (
@@ -27,15 +37,32 @@ const AuthCard = ({ title, subtitle, submitLabel, onSubmit }) => {
       </h1>
 
       {subtitle && (
-        <p
-          className="text-sm mb-6"
-          style={{ color: 'var(--text-secondary)' }}
-        >
-          {subtitle}
-        </p>
+        <p className="text-sm mb-6 text-secondary">
+        {subtitle}
+      </p>
+      )}
+
+      {error && (
+        <p className="text-sm mb-3 italic text-error">
+        {error}
+      </p>
+      
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          name="userName"
+          required
+          placeholder="Username"
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg border outline-none transition"
+          style={{
+            background: 'var(--bg-primary)',
+            borderColor: 'var(--border-subtle)',
+          }}
+        />
+
         <input
           type="email"
           name="email"
