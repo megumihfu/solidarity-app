@@ -34,6 +34,10 @@ public class AssociationService {
     }
 
     public List<AssociationResponseDTO> search(String city, String name, String tag) {
+        city = normalize(city);
+        name = normalize(name);
+        tag  = normalize(tag);
+
         return repository.searchAssociations(city, name, tag)
                 .stream()
                 .map(this::toResponseDTO)
@@ -99,4 +103,12 @@ public class AssociationService {
     }
 
     //endregion
+
+
+    private String normalize(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return null;
+        }
+        return value.trim();
+    }
 }
