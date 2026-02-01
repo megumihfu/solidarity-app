@@ -3,11 +3,13 @@ import SearchBar from "../associations/SearchBar";
 import AssociationList from "../associations/AssociationList";
 import InfoCard from "../infos/InfoCard";
 import { searchAssociations, getAllAssociations } from "../../services/associationService";
+import { getAllInfos } from "../../services/infoService";
 
 const HomeTabs = () => {
   const [selectedTab, setSelectedTab] = useState("home");
   const [searchParams, setSearchParams] = useState({ name: "", tag: "", city: "" });
   const [associations, setAssociations] = useState([]);
+  const [infos, setInfos] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -21,6 +23,19 @@ const HomeTabs = () => {
     fetchAssociations();
   }, []);
 
+  useEffect(() => {
+    if (selectedTab !== "infos") return;
+
+    const fetchInfos = async () => {
+      setLoading(true);
+      const data = await getAllInfos();
+      setInfos(data);
+      setLoading(false);
+    };
+
+    fetchInfos();
+  }, [selectedTab]);
+
   const handleSearch = async () => {
     setLoading(true);
     const data = await searchAssociations(searchParams);
@@ -28,10 +43,6 @@ const HomeTabs = () => {
     setLoading(false);
   };
 
-  const infos = [
-    { id: 1, title: "How to register", content: "You can register as a volunteer or an association.", link: "https://somelink.fr" },
-    { id: 2, title: "Samu Guidelines", content: "Some content." },
-  ];
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
