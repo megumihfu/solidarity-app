@@ -9,6 +9,9 @@ import {
   deleteAssociation 
 } from "../../services/associationService";
 import { getAllInfos } from "../../services/infoService";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import Button from "../common/Button";
 
 const HomeTabs = () => {
   const [selectedTab, setSelectedTab] = useState("home");
@@ -16,6 +19,8 @@ const HomeTabs = () => {
   const [associations, setAssociations] = useState([]);
   const [infos, setInfos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAssociations = async () => {
@@ -64,23 +69,36 @@ const HomeTabs = () => {
       </header>
 
       {/* tabs */}
-      <div className="flex space-x-8 mb-6 border-b border-slate-200">
-        {["home", "infos"].map((tab) => {
-          const isSelected = selectedTab === tab;
-          return (
-            <div
-              key={tab}
-              onClick={() => setSelectedTab(tab)}
-              className={`cursor-pointer pb-2 font-semibold transition-colors ${
-                isSelected
+      <div className="flex items-end mb-6 border-b border-slate-200">
+        <div className="flex space-x-8">
+          {["home", "infos"].map((tab) => {
+            const isSelected = selectedTab === tab;
+            return (
+              <div
+                key={tab}
+                onClick={() => setSelectedTab(tab)}
+                className={`cursor-pointer pb-2 font-semibold transition-colors ${
+                  isSelected
                     ? 'text-[var(--accent-primary)] border-b-2 border-[var(--accent-primary)]'
                     : 'text-[var(--text-secondary)] border-b-2 border-transparent hover:text-[var(--accent-primary)]'
                 }`}
+              >
+                {tab === "home" ? "Home" : "Infos"}
+              </div>
+            );
+          })}
+        </div>
+
+        {isAuthenticated && selectedTab === "home" && (
+          <div className="ml-auto pb-2">
+            <Button
+              variant="primary"
+              onClick={() => navigate("/associations/new")}
             >
-              {tab === "home" ? "Home" : "Infos"}
-            </div>
-          );
-        })}
+              Add association
+            </Button>
+          </div>
+        )}
       </div>
 
       {selectedTab === "home" && (

@@ -33,6 +33,30 @@ export const searchAssociations = async (params) => {
   }
 };
 
+export const createAssociation = async (data) => {
+  try {
+    console.log('[createAssociation] POST:', API_URL, data);
+
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(errText || 'Failed to create association');
+    }
+
+    return await res.json();
+  } catch (err) {
+    console.error('Error creating association:', err);
+    throw err;
+  }
+};
+
 export const updateAssociation = async (id, data) => {
   const res = await fetch(`${API_URL}/${id}`, {
     method: 'PUT',
