@@ -1,12 +1,11 @@
 import Button from './Button';
 import { Link, useNavigate } from "react-router-dom";
-import { isAuthenticated, getUser, logout } from "../../services/authService";
 import { FiLogOut } from "react-icons/fi";
+import { useAuth } from '../../context/AuthContext';
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const auth = isAuthenticated();
-  const user = auth ? getUser() : null;
+  const { isAuthenticated, user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -34,7 +33,7 @@ const NavBar = () => {
           </Link>
         </div>
         <div className="flex items-center gap-3">
-          {auth ? (
+          {isAuthenticated ? (
             <>
               <span
                 className="text-base font-bold tracking-wide"

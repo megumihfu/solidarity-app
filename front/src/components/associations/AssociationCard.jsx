@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { isAuthenticated } from '../../services/authService';
 import Button from '../common/Button';
+import { useAuth } from '../../context/AuthContext';
 
 const AssociationCard = ({ association, onEdit, onDelete }) => {
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const auth = isAuthenticated();
+  const { isAuthenticated } = useAuth(); 
 
   const [form, setForm] = useState({
     name: association.name,
@@ -197,7 +197,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
               )
             )}
 
-            {auth && (
+            {isAuthenticated && (
               <div className="flex gap-2 pt-4">
                 {!isEditing ? (
                   <>

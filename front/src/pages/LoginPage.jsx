@@ -2,11 +2,13 @@ import { useState } from "react";
 import NavBar from "../components/common/NavBar";
 import AuthCard from "../components/common/AuthCard";
 import { useNavigate } from "react-router-dom";
-import { login, register } from "../services/authService"; 
+import { login as loginAPI } from "../services/authService"; 
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const { login } = useAuth();
 
   const handleLogin = async (form, emailError) => {
     if (emailError) {
@@ -16,7 +18,8 @@ const LoginPage = () => {
 
     setError(null);
     try {
-      await login(form);
+      const user = await loginAPI(form); 
+      login(user);
       navigate("/"); 
     } catch (err) {
       console.error("Login failed", err);
@@ -30,7 +33,7 @@ const LoginPage = () => {
       style={{ background: 'var(--bg-secondary)' }}
     >
       <NavBar />
-
+      
       <main className="flex justify-center items-center px-4 py-12">
         <AuthCard
           title="Welcome back !"

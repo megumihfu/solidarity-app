@@ -2,11 +2,13 @@ import { useState } from "react";
 import NavBar from "../components/common/NavBar";
 import AuthCard from "../components/common/AuthCard";
 import { useNavigate } from "react-router-dom";
-import { register } from "../services/authService";
+import { register as registerAPI } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const { login } = useAuth(); 
 
   const handleRegister = async (form, emailError) => {
     if (emailError) {
@@ -21,7 +23,9 @@ const RegisterPage = () => {
         email: form.email,
         password: form.password
       };
-      await register(userToCreate); 
+
+      const user = await registerAPI(userToCreate);
+      login(user); 
       
       navigate("/");
     } catch (err) {

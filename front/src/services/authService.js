@@ -14,12 +14,6 @@ const authRequest = async (endpoint, payload, errorMessage) => {
 
     const user = await res.json();
 
-    //@todo real auth 
-    localStorage.setItem('isAuthenticated', 'true');
-    localStorage.setItem('userEmail', user.email);
-    localStorage.setItem('userId', user.id);
-    localStorage.setItem('userName', user.userName);
-
     return user;
   } catch (err) {
     console.error(`[${endpoint}] error:`, err);
@@ -29,19 +23,3 @@ const authRequest = async (endpoint, payload, errorMessage) => {
 
 export const login = (credentials) => authRequest('login', credentials, 'Invalid credentials');
 export const register = (data) => authRequest('register', data, 'Registration failed');
-
-
-export const isAuthenticated = () => {
-  return localStorage.getItem('isAuthenticated') === 'true';
-};
-
-export const getUser = () => ({
-  email: localStorage.getItem('userEmail'),
-  userName: localStorage.getItem('userName'),
-});
-
-export const logout = () => {
-  localStorage.removeItem('isAuthenticated');
-  localStorage.removeItem('userEmail');
-  localStorage.removeItem('userName');
-};
