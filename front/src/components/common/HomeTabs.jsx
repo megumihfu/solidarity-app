@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import SearchBar from "../associations/SearchBar";
 import AssociationList from "../associations/AssociationList";
 import InfoCard from "../infos/InfoCard";
-import { searchAssociations, getAllAssociations } from "../../services/associationService";
+import { 
+  searchAssociations, 
+  getAllAssociations, 
+  updateAssociation, 
+  deleteAssociation 
+} from "../../services/associationService";
 import { getAllInfos } from "../../services/infoService";
 
 const HomeTabs = () => {
@@ -88,7 +93,25 @@ const HomeTabs = () => {
           {loading ? (
             <p style={{ color: 'var(--text-secondary)' }}>Loading...</p>
           ) : (
-            <AssociationList associations={associations} />
+            <AssociationList
+              associations={associations}
+              onEdit={async (updatedAsso) => {
+                const updated = await updateAssociation(updatedAsso.id, updatedAsso);
+                setAssociations(prev =>
+                  prev.map(a => a.id === updated.id ? updated : a)
+                );
+              }}
+              onDelete={async (id) => {
+                const confirmed = window.confirm(
+                  "Are you sure you want to delete this association?\nThis action cannot be undone."
+                );
+
+                if (!confirmed) return;
+
+                await deleteAssociation(id);
+                setAssociations(prev => prev.filter(a => a.id !== id));
+              }}
+            />
           )}
         </div>
       )}

@@ -32,3 +32,30 @@ export const searchAssociations = async (params) => {
     return [];
   }
 };
+
+export const updateAssociation = async (id, data) => {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to update association');
+  }
+
+  console.log('Updated asso with data: ', data);
+  return res.json();
+};
+
+export const deleteAssociation = async (id) => {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to delete association');
+  }
+
+  console.log('Deleted assos with id: ', id);
+};
