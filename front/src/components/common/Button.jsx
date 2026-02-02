@@ -1,12 +1,21 @@
 import React from 'react';
 
-const Button = ({ children, onClick, isPrimary = true, className = '' }) => {
-  const variantClass = isPrimary ? 'button-primary' : 'button-secondary';
+const Button = ({
+  children,
+  onClick,
+  variant = "primary", 
+  className = ""
+}) => {
+  const variants = {
+    primary: "button-primary",
+    secondary: "button-secondary",
+    error: "button-error",
+  };
 
   return (
     <button
       onClick={onClick}
-      className={`${variantClass} ${className}`}
+      className={`${variants[variant]} ${className}`}
     >
       {children}
     </button>

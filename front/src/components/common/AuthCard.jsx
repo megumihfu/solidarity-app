@@ -91,7 +91,10 @@ const AuthCard = ({ title, subtitle, submitLabel, onSubmit , error, showUsername
           }}
         />
 
-        <Button isPrimary={true} className="w-full py-3 font-semibold">
+        <Button 
+          variant="primary"
+          className="w-full py-3 font-semibold"
+        >
           {submitLabel}
         </Button>
       </form>

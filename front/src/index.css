@@ -32,6 +32,14 @@
     --btn-secondary-bg-hover: theme(colors.slate.300);
     --btn-secondary-text: theme(colors.slate.900);
 
+    --btn-error-bg: var(--error);
+    --btn-error-bg-hover: var(--error-hover);
+    --btn-error-text: white;
+
+    --error: theme(colors.rose.700);
+    --error-hover: theme(colors.rose.800);
+    --error-muted: theme(colors.rose.500 / 0.12);
+
     --card-bg: var(--bg-primary);
     --card-border: var(--border-subtle);
     --card-shadow: theme(colors.slate.900 / 0.05);
@@ -102,5 +110,15 @@
   .button-secondary:hover {
     background: var(--btn-secondary-bg-hover);
   }
+
+  .button-error {
+    background: var(--btn-error-bg);
+    color: var(--btn-error-text);
+  }
+
+  .button-error:hover {
+    background: var(--btn-error-bg-hover);
+  }
+
 
 }

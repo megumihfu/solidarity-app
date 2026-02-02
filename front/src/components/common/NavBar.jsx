@@ -47,17 +47,17 @@ const NavBar = () => {
                  &nbsp;!
               </span>
 
-              <Button isPrimary={true} onClick={handleLogout}>
+              <Button variant='primary' onClick={handleLogout}>
                 <FiLogOut />
               </Button>
             </>
           ) : (
             <>
               <Link to="/login">
-                <Button isPrimary={false}>Login</Button>
+                <Button variant='secondary'>Login</Button>
               </Link>
               <Link to="/register">
-                <Button isPrimary={true}>Register</Button>
+                <Button variant='primary'>Register</Button>
               </Link>
             </>
           )}
