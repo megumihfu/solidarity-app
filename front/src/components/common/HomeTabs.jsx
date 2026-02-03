@@ -8,7 +8,7 @@ import {
   updateAssociation, 
   deleteAssociation 
 } from "../../services/associationService";
-import { getAllInfos } from "../../services/infoService";
+import { getAllInfos, updateInfo, deleteInfo } from "../../services/infoService";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Button from "../common/Button";
@@ -99,6 +99,18 @@ const HomeTabs = () => {
             </Button>
           </div>
         )}
+
+        {isAuthenticated && selectedTab === "infos" && (
+          <div className="ml-auto pb-2">
+            <Button
+              variant="primary"
+              onClick={() => navigate("/infos/new")}
+            >
+              Add info
+            </Button>
+          </div>
+        )}
+
       </div>
 
       {selectedTab === "home" && (
@@ -135,12 +147,31 @@ const HomeTabs = () => {
       )}
 
       {selectedTab === "infos" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {infos.map((info) => (
-            <InfoCard key={info.id} {...info} />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {infos.map((info) => (
+          <InfoCard
+            key={info.id}
+            info={info}
+            isAuthenticated={isAuthenticated}
+            onSave={async (updatedInfo) => {
+              const saved = await updateInfo(updatedInfo.id, updatedInfo);
+              setInfos(prev =>
+                prev.map(i => i.id === saved.id ? saved : i)
+              );
+            }}
+            onDelete={async (id) => {
+              const confirmed = window.confirm(
+                "Are you sure you want to delete this info?\nThis action cannot be undone."
+              );
+              if (!confirmed) return;
+
+              await deleteInfo(id);
+              setInfos(prev => prev.filter(i => i.id !== id));
+            }}
+          />
+        ))}
+      </div>
+    )}
     </div>
   );
 };
