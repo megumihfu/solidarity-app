@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import Button from '../common/Button';
 import { useAuth } from '../../context/AuthContext';
 import { BiSolidEditAlt } from "react-icons/bi";
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaExternalLinkAlt } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
-import { FaExternalLinkAlt } from "react-icons/fa";
 
 const AssociationCard = ({ association, onEdit, onDelete }) => {
   const [expanded, setExpanded] = useState(false);
@@ -19,6 +18,17 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
     contact: association.contact || '',
     link: association.link || '',
   });
+
+  const editInputStyle = `
+    w-full
+    bg-[var(--bg-secondary)]
+    border border-[var(--border-subtle)]
+    rounded-xl
+    px-3 py-2
+    text-sm
+    focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent
+    outline-none transition-all
+  `;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +58,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
         onClick={() => !isEditing && setExpanded(!expanded)}
       >
         <div className="flex justify-between items-start">
-          <div className="space-y-1">
+          <div className="space-y-2 flex-1 pr-4">
             {/* tag */}
             <span className="inline-block text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider
               bg-[var(--tag-bg)] text-[var(--tag-text)]
@@ -61,14 +71,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                className="
-                  w-full bg-transparent
-                  border-b border-[var(--border-subtle)]
-                  focus:border-[var(--accent-primary)]
-                  outline-none
-                  text-xl font-bold
-                  transition-colors
-                "
+                className={editInputStyle + " text-xl font-bold"}
               />
             ) : (
               <h3 className="text-xl font-bold text-[var(--text-heading)]">
@@ -81,14 +84,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
                 name="city"
                 value={form.city}
                 onChange={handleChange}
-                className="
-                  bg-transparent
-                  border-b border-[var(--border-subtle)]
-                  focus:border-[var(--accent-primary)]
-                  outline-none
-                  text-sm
-                  transition-colors
-                "
+                className={editInputStyle + " mt-1"}
               />
             ) : (
               <p className="text-sm font-medium text-[var(--text-muted)]">
@@ -122,26 +118,17 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
             ${expanded ? 'max-h-96 opacity-100 mt-3' : 'max-h-0 opacity-0'}
           `}
         >
-          <div className="pt-6 border-t border-[var(--card-border)] space-y-3">
-            <h4 className="text-sm font-bold uppercase tracking-widest text-[var(--text-secondary)]">
+          <div className="pt-4 border-t border-[var(--card-border)] space-y-2">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)]">
               Description
             </h4>
-
             {isEditing ? (
               <textarea
                 name="description"
                 value={form.description}
                 onChange={handleChange}
-                className="
-                  w-full bg-transparent
-                  border border-[var(--border-subtle)]
-                  focus:border-[var(--accent-primary)]
-                  rounded-xl
-                  px-3 py-2
-                  text-sm
-                  outline-none
-                  transition-colors
-                "
+                rows={2}
+                className={`${editInputStyle} resize-none`}
               />
             ) : (
               <p className="italic text-sm text-[var(--text-muted)]">
@@ -156,14 +143,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
                 value={form.contact}
                 onChange={handleChange}
                 placeholder="Contact"
-                className="
-                  w-full bg-transparent
-                  border-b border-[var(--border-subtle)]
-                  focus:border-[var(--accent-primary)]
-                  outline-none
-                  text-sm
-                  transition-colors
-                "
+                className={editInputStyle}
               />
             ) : (
               association.contact && (
@@ -180,14 +160,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
                 value={form.link}
                 onChange={handleChange}
                 placeholder="Website"
-                className="
-                  w-full bg-transparent
-                  border-b border-[var(--border-subtle)]
-                  focus:border-[var(--accent-primary)]
-                  outline-none
-                  text-sm
-                  transition-colors
-                "
+                className={editInputStyle}
               />
             ) : (
               association.link && (
