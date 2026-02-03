@@ -34,10 +34,52 @@ This project is built as a technical assignment & portfolio project to demonstra
 - UI actions conditionally displayed when authenticated
 - Responsive and mobile-first user interface
 - Application logging and API documentation
+- Fully Dockerized for easy local setup and deployment
 
 > At this stage, access control is mainly enforced at the frontend level.  
 > Backend role-based security is intentionally deferred to a later phase.
 ---
+
+## Getting Started
+
+### Prerequisites
+Make sure you have installed:
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- .env.docker file at the repository root (see [Environment variables](#environment-variables) for more details)
+
+### Running the Project
+The entire application (backend + frontend + database) is fully Dockerized. To start it, run:
+
+```bash
+docker compose --env-file .env.docker up --build
+```
+
+This will build the images and start all containers:
+- Frontend accessible at: http://localhost:3000/
+- Backend API accessible at: http://localhost:8080/
+- Postgres database with initialized data
+
+### Environment variables
+The project uses a `.env.docker` file at the repository root to configure environment variables for Dockerized development.  
+> Replace  `your_user` and `your_password` with your actual credentials when running locally
+
+```env
+DB_HOST=postgres
+DB_PORT=5432
+DB_NAME=solidarity-app
+DB_USER=your_user
+DB_PASSWORD=your_password
+
+POSTGRES_USER=your_user
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=solidarity-app
+```
+
+
+### API Documentation
+The backend exposes an OpenAPI documentation available at: [Swagger UI](http://localhost:8080/swagger-ui/index.html)
+This allows you to explore all available endpoints, request/response schemas, and try out the API directly from your browser
 
 ## Architecture
 
@@ -49,7 +91,7 @@ The backend follows a classic Layered Architecture: Controller -> Service -> Rep
 - PostgreSQL database initialized via SQL scripts
 
 ### Frontend
-Frontend and backend are separated and communicate through a REST API.
+Frontend and backend are separated and communicate through a REST API
 - React application bootstrapped with Vite
 - Component-based architecture
 - API access centralized via service layers
@@ -60,6 +102,7 @@ Frontend and backend are separated and communicate through a REST API.
 ┌── backend/           # Spring Boot REST API
 ├── frontend/          # React application using Vite
 ├── docker-compose.yml # Containerization
+├── .env.docker 
 └── README.md
 ```
 
@@ -81,10 +124,11 @@ Following features are planned but not implemented yet:
 
 ### Features
 - City name autocompletion usign the French public API: https://geo.api.gouv.fr/decoupage-administratif/communes
+> This API can also provide geographic coordinates (longitude & latitude) to place associations on an interactive map later
+
 - Interactive map view for associations
 - Improved error handling (HTTP request, exceptions..)
 
 ### DevOps
-- Full dockerization (back & front)
 - CI/CD pipelines
 - Deployment to AWS
