@@ -1,4 +1,4 @@
 back/target/
 back/.idea/
-.env 
+.env.* 
 .DS_Store
