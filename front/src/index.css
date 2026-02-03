@@ -112,12 +112,14 @@
   }
 
   .button-error {
-    background: var(--btn-error-bg);
-    color: var(--btn-error-text);
-  }
+    background: var(--error-muted);
+    color: var(--error);
+    border: 1px solid transparent;
+    }
 
   .button-error:hover {
-    background: var(--btn-error-bg-hover);
+    background: var(--error);
+    color: white;
   }
 
 

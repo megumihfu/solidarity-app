@@ -15,7 +15,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`${variants[variant]} ${className}`}
+      className={`flex items-center justify-center gap-2 ${variants[variant]} ${className}`}
     >
       {children}
     </button>

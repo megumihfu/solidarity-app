@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import Button from '../common/Button';
 import { useAuth } from '../../context/AuthContext';
+import { BiSolidEditAlt } from "react-icons/bi";
+import { FaSave } from "react-icons/fa";
+import { AiFillDelete } from "react-icons/ai";
+import { RxCross1 } from "react-icons/rx";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 const AssociationCard = ({ association, onEdit, onDelete }) => {
   const [expanded, setExpanded] = useState(false);
@@ -190,9 +195,9 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
                   href={association.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[var(--accent-primary)] hover:underline"
+                  className="text-sm font-medium text-[var(--accent-primary)] hover:underline inline-flex items-center gap-2"
                 >
-                  Visit website
+                  Visit <FaExternalLinkAlt />
                 </a>
               )
             )}
@@ -209,7 +214,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
                         setExpanded(true);
                       }}
                     >
-                      Edit
+                      <BiSolidEditAlt />
                     </Button>
                     <Button
                       variant='error'
@@ -218,7 +223,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
                         onDelete(association.id);
                       }}
                     >
-                      Delete
+                      <AiFillDelete />
                     </Button>
                   </>
                 ) : (
@@ -231,7 +236,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
                         setIsEditing(false);
                       }}
                     >
-                      Submit
+                      <FaSave />
                     </Button>
                     <Button
                       variant='secondary'
@@ -240,7 +245,7 @@ const AssociationCard = ({ association, onEdit, onDelete }) => {
                         handleCancel();
                       }}
                     >
-                      Cancel
+                      <RxCross1 />
                     </Button>
                   </>
                 )}
