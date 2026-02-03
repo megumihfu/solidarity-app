@@ -29,7 +29,7 @@ This project is built as a technical assignment & portfolio project to demonstra
 - Public directory of social aid resources
 - Advanced search and filtering (city, category tags, associations)
 - Public access to important informational content
-- CRUD operations on associations & informations
+- CRUD operations on associations & information
 - Authentication system in place (email/password)
 - UI actions conditionally displayed when authenticated
 - Responsive and mobile-first user interface
@@ -46,7 +46,7 @@ This project is built as a technical assignment & portfolio project to demonstra
 Make sure you have installed:
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- .env.docker file at the repository root (see [Environment variables](#environment-variables) for more details)
+- `.env.docker` file at the repository root (see [Environment variables](#environment-variables) for more details)
 
 ### Running the Project
 The entire application (backend + frontend + database) is fully Dockerized. To start it, run:
@@ -118,12 +118,12 @@ Frontend and backend are separated and communicate through a REST API
 
 Following features are planned but not implemented yet:
 
-### Authentification
+### Authentication
 - JWT-based auth
-- Role based access controle for admin & user
+- Role based access control for admin & user
 
 ### Features
-- City name autocompletion usign the French public API: https://geo.api.gouv.fr/decoupage-administratif/communes
+- City name autocompletion using the French public API: https://geo.api.gouv.fr/decoupage-administratif/communes
 > This API can also provide geographic coordinates (longitude & latitude) to place associations on an interactive map later
 
 - Interactive map view for associations
