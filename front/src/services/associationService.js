@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8080/api/associations';
+const API_URL = '/api/associations';
 
 export const getAllAssociations = async () => {
   try {

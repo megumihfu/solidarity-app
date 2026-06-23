@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8080/api/infos';
+const API_URL = '/api/infos';
 
 export const getAllInfos = async () => {
   try {
