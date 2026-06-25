@@ -20,6 +20,7 @@ This project is built as a technical assignment & portfolio project to demonstra
 
 ### Tools
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/kubernetes-%23326CE5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
 ![Git](https://img.shields.io/badge/git-%23F05032.svg?style=for-the-badge&logo=git&logoColor=white)
 
 ---
@@ -46,7 +47,10 @@ This project is built as a technical assignment & portfolio project to demonstra
 Make sure you have installed:
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [Kubernetes](https://kubernetes.io/) (local: [Minikube](https://minikube.sigs.k8s.io/docs/start/), cloud: AWS EKS, GCP GKE, or Azure AKS)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - `.env.docker` file at the repository root (see [Environment variables](#environment-variables) for more details)
+- `secrets.yml` file at the k8s repository root (see [Environment variables](#environment-variables) for more details)
 
 ### Running the Project
 The entire application (backend + frontend + database) is fully Dockerized. To start it, run:
@@ -61,6 +65,7 @@ This will build the images and start all containers:
 - Postgres database with initialized data
 
 ### Environment variables
+**Do not commit those files to version control.** 
 The project uses a `.env.docker` file at the repository root to configure environment variables for Dockerized development.  
 > Replace  `your_user` and `your_password` with your actual credentials when running locally
 
@@ -76,6 +81,26 @@ POSTGRES_PASSWORD=your_password
 POSTGRES_DB=solidarity-app
 ```
 
+For Kubernetes, we use Kubernetes Secret to also store sensistive data.  
+>  Create your own `k8s/secrets.yaml` with the following structure, and replace  `your_user` and `your_password` with your actual credentials when running locally
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: solidarity-secrets
+  namespace: solidarity
+type: Opaque
+stringData:
+  POSTGRES_USER: your_user
+  POSTGRES_PASSWORD: your_password
+  POSTGRES_DB: solidarity-app
+  DB_USER: your_user
+  DB_PASSWORD: your_password
+  DB_NAME: solidarity-app
+  DB_HOST: postgres
+  DB_PORT: "5432"
+```
 
 ### API Documentation
 The backend exposes an OpenAPI documentation available at: [Swagger UI](http://localhost:8080/swagger-ui/index.html)
@@ -96,11 +121,37 @@ Frontend and backend are separated and communicate through a REST API
 - Component-based architecture
 - API access centralized via service layers
 - Responsive, mobile-first layout
-  
+
+### Kubernetes Deployment (DevOps)
+The application can be deployed on Kubernetes for production or staging environments. The deployment is fully containerized and uses the same Docker images built from the `backend/` and `frontend/` directories.
+
+**Deployment steps:** 
+Start your Kubernetes cluster (local: Minikube)
+```bash
+minikube start
+```
+
+Apply the manifest
+```bash
+kubectl apply -f k8s/ --recursive
+```
+
+Verify deployment
+```bash
+kubectl get pods -n solidarity
+kubectl get services -n solidarity
+```
+
+Access the application
+```bash
+minikube service solidarity-frontend -n solidarity
+```
+
 ### Project Structure
 ```text
 ┌── backend/           # Spring Boot REST API
 ├── frontend/          # React application using Vite
+├── k8s/               # Kubernetes manifests
 ├── docker-compose.yml # Containerization
 ├── .env.docker 
 └── README.md
@@ -119,16 +170,21 @@ Frontend and backend are separated and communicate through a REST API
 Following features are planned but not implemented yet:
 
 ### Authentication
-- JWT-based auth
-- Role based access control for admin & user
+- [ ] JWT-based auth
+- [ ] Role based access control for admin & user
 
 ### Features
-- City name autocompletion using the French public API: https://geo.api.gouv.fr/decoupage-administratif/communes
+- [ ] City name autocompletion using the French public API: https://geo.api.gouv.fr/decoupage-administratif/communes
 > This API can also provide geographic coordinates (longitude & latitude) to place associations on an interactive map later
 
-- Interactive map view for associations
-- Improved error handling (HTTP request, exceptions..)
+- [ ] Interactive map view for associations
+- [ ] Improved error handling (HTTP request, exceptions..)
 
 ### DevOps
-- CI/CD pipelines
-- Deployment to AWS
+- [x] CI/CD pipelines
+- [x] Dockerized application
+- [x] Kubernetes deployment (Minikube)
+- [ ] Infrastructure as Code (Terraform)
+- [ ] Deployment to AWS
+- [ ] Configuration Management (Ansible)
+- [ ] Monitoring & Observability (Prometheus + Grafana)

@@ -2,3 +2,4 @@ back/target/
 back/.idea/
 .env.* 
 .DS_Store
+k8s/secrets.yml
