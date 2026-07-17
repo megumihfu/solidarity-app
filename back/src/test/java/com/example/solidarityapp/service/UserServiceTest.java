@@ -2,6 +2,7 @@ package com.example.solidarityapp.service;
 
 import com.example.solidarityapp.dto.user.CreateUserRequestDTO;
 import com.example.solidarityapp.dto.user.LoginRequestDTO;
+import com.example.solidarityapp.dto.user.LoginResponseDTO;
 import com.example.solidarityapp.dto.user.UserResponseDTO;
 import com.example.solidarityapp.entity.User;
 import com.example.solidarityapp.repository.UserRepository;
@@ -14,8 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -27,6 +27,9 @@ public class UserServiceTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private JwtService jwtService;
 
     @InjectMocks
     private UserService service;
@@ -71,11 +74,13 @@ public class UserServiceTest {
         when(repository.findUserByEmail("paedyn.gray@gmail.com")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("password123", "encodedPass")).thenReturn(true);
 
-        UserResponseDTO response = service.login(request);
+        when(jwtService.generateToken("paedyn.gray@gmail.com")).thenReturn("mocked-jwt-token");
 
-        assertEquals(2L, response.id());
-        assertEquals("Paedyn", response.userName());
-        assertEquals("paedyn.gray@gmail.com", response.email());
+        LoginResponseDTO response = service.login(request);
+
+        assertEquals("mocked-jwt-token", response.token());
+        assertEquals("Paedyn", response.user().userName());
+        assertEquals("paedyn.gray@gmail.com", response.user().email());
     }
 
     @Test
