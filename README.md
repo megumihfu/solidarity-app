@@ -2,7 +2,7 @@
 
 A full-stack web application designed to help people find social aid resources (food, shelter, clothing, hygiene) provided by local associations.
 
-This project is built as a technical assignment & portfolio project to demonstrate full-stack development skills, API design, and incremental delivery (MVP first).
+This project is built as a portfolio project to demonstrate full-stack development skills, API design, and incremental delivery (MVP first).
 
 ---
 
@@ -79,6 +79,9 @@ DB_PASSWORD=your_password
 POSTGRES_USER=your_user
 POSTGRES_PASSWORD=your_password
 POSTGRES_DB=solidarity-app
+
+CORS_ALLOWED_ORIGINS=http://localhost:3000
+JWT_SECRET=your_secret_jwt_key
 ```
 
 For Kubernetes, we use Kubernetes Secret to also store sensistive data.  
@@ -170,7 +173,7 @@ minikube service solidarity-frontend -n solidarity
 Following features are planned but not implemented yet:
 
 ### Authentication
-- [ ] JWT-based auth
+- [x] JWT-based auth
 - [ ] Role based access control for admin & user
 
 ### Features
@@ -184,7 +187,7 @@ Following features are planned but not implemented yet:
 - [x] CI/CD pipelines
 - [x] Dockerized application
 - [x] Kubernetes deployment (Minikube)
-- [ ] Infrastructure as Code (Terraform)
+- [x] Infrastructure as Code (Terraform)
 - [ ] Deployment to AWS
 - [ ] Configuration Management (Ansible)
 - [ ] Monitoring & Observability (Prometheus + Grafana)
