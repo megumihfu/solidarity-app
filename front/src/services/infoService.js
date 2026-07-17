@@ -13,9 +13,13 @@ export const getAllInfos = async () => {
 };
 
 export const createInfo = async (data) => {
+  const token = localStorage.getItem('token');
   const res = await fetch(API_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
     body: JSON.stringify(data),
   });
 
@@ -29,9 +33,14 @@ export const createInfo = async (data) => {
 };
 
 export const updateInfo = async (id, data) => {
+  const token = localStorage.getItem('token'); 
+
   const res = await fetch(`${API_URL}/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
     body: JSON.stringify(data),
   });
 
@@ -45,13 +54,22 @@ export const updateInfo = async (id, data) => {
 };
 
 export const deleteInfo = async (id) => {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: 'DELETE',
-  });
-  
-  console.log('[deleteInfo] DELETE info id: ', id);
+  const token = localStorage.getItem('token');
 
-  if (!res.ok) {
-    throw new Error('Failed to delete info');
+  try {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}`, }
+    });
+    
+    console.log('[deleteInfo] DELETE info id: ', id);
+  
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(errText || 'Failed to delete association');
+    }
+  } catch (err) {
+    console.error('Error deleting info:', err);
+    throw err;
   }
 };

@@ -12,12 +12,21 @@ export const AuthProvider = ({ children }) => {
     userName: localStorage.getItem("userName"),
   });
 
-  const login = (user) => {
-    localStorage.setItem("isAuthenticated", "true");
-    localStorage.setItem("userEmail", user.email);
-    localStorage.setItem("userName", user.userName);
+  const login = (resBackend) => {
+    if (!resBackend || !resBackend.token || !resBackend.user) {
+      console.error("Invalid response from backend:", resBackend);
+      throw new Error("Invalid response from backend");
+    }
 
-    setUser({ email: user.email, userName: user.userName });
+    const token = resBackend.token;
+    const userObj = resBackend.user;
+
+    localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("userEmail", userObj.email);
+    localStorage.setItem("userName", userObj.userName || "User");
+    localStorage.setItem("token", token);
+
+    setUser({ email: userObj.email, userName: userObj.userName });
     setIsAuthenticated(true);
   };
 
