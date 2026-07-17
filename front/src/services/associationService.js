@@ -36,11 +36,13 @@ export const searchAssociations = async (params) => {
 export const createAssociation = async (data) => {
   try {
     console.log('[createAssociation] POST:', API_URL, data);
+    const token = localStorage.getItem('token');
 
     const res = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(data),
     });
@@ -58,9 +60,13 @@ export const createAssociation = async (data) => {
 };
 
 export const updateAssociation = async (id, data) => {
+  const token = localStorage.getItem('token');
   const res = await fetch(`${API_URL}/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
     body: JSON.stringify(data),
   });
 
@@ -73,13 +79,27 @@ export const updateAssociation = async (id, data) => {
 };
 
 export const deleteAssociation = async (id) => {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: 'DELETE',
-  });
 
-  if (!res.ok) {
-    throw new Error('Failed to delete association');
+  try {
+    const token = localStorage.getItem('token');
+    console.log('[deleteAssociation] DELETE:', `${API_URL}/${id}`);
+
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`, 
+      }
+    });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || 'Failed to delete association');
+      }
+    
+      console.log('Deleted assos with id: ', id);
+  } catch (err) {
+    console.error('Error deleting association:', err);
+    throw err;
   }
 
-  console.log('Deleted assos with id: ', id);
 };

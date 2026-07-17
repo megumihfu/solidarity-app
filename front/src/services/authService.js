@@ -13,6 +13,7 @@ const authRequest = async (endpoint, payload, errorMessage) => {
     }
 
     const user = await res.json();
+    console.log("response user = ", user)
 
     return user;
   } catch (err) {
