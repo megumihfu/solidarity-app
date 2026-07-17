@@ -2,6 +2,7 @@ package com.example.solidarityapp.controller;
 
 import com.example.solidarityapp.dto.user.CreateUserRequestDTO;
 import com.example.solidarityapp.dto.user.LoginRequestDTO;
+import com.example.solidarityapp.dto.user.LoginResponseDTO;
 import com.example.solidarityapp.dto.user.UserResponseDTO;
 import com.example.solidarityapp.service.UserService;
 import jakarta.validation.Valid;
@@ -34,12 +35,11 @@ public class UserController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<UserResponseDTO> login(
+    public ResponseEntity<LoginResponseDTO> login(
             @Valid
             @RequestBody LoginRequestDTO request
     ) {
-        UserResponseDTO user = service.login(request);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(service.login(request));
     }
 
     //endregion
